@@ -58,29 +58,27 @@
         <!-- <h1 class="post-title">OpenStack上搭建Cloud Foundry V1版</h1> -->
 
         <section class="post-content">
-            <h2>1 说明</h2>
+            <p>仅供参考~~</p>
+
+<h3>1 说明</h3>
 
 <ol>
 <li><p>OpenStack为Ubuntu 12.04官方源里的版本</p></li>
 <li><p>Cloud Foundry版本为V1版</p></li>
 </ol>
 
-<h2>2 前置需求</h2>
+<h3>2 前置需求</h3>
 
 <ol>
 <li><p>OpenStack已经正确安装</p></li>
 <li><p>已上传好Ubuntu 12.04 Server版镜像，由其启动的虚拟机实例能正常访问外网</p></li>
 </ol>
 
-<h2>3 部署方案和准备工作</h2>
-
-<blockquote>
-<h5>整个PaaS层由Cloud Foundry核心系统、Nginx负载均衡以及Cloud Foundry Web控制台三大部分构成。其中Cloud Foundry核心系统可分成四部分部署：Router，Dea，Services和Rest。</h5>
-
-<h5><strong>可根据实际需求对以下方案进行灵活调整</strong></h5>
-</blockquote>
-
-<h3>3.1 部署方案</h3>
+<h3>3 部署方案和准备工作</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&gt;**整个PaaS层由Cloud Foundry核心系统、Nginx负载均衡以及Cloud Foundry Web控制台三大部分构成。其中Cloud Foundry核心系统可分成四部分部署：Router，Dea，Services和Rest。**
+&gt;**可根据实际需求对以下方案进行灵活调整**
+</code></pre></div>
+<h4>3.1 部署方案</h4>
 
 <ol>
 <li><p>Nginx：1台虚拟机，Nginx </p>
@@ -115,11 +113,11 @@
 <p>安装Cloud Foundry基于Web的图形化控制界面</p></li>
 </ol>
 
-<h3>3.2 准备工作</h3>
+<h4>3.2 准备工作</h4>
 
-<h4>3.2.1 根据以上配置需求在OpenStack仪表盘中创建相应的Flavors</h4>
+<h5>3.2.1 根据以上配置需求在OpenStack仪表盘中创建相应的Flavors</h5>
 
-<h4>3.2.2 创建密钥对和安全组</h4>
+<h5>3.2.2 创建密钥对和安全组</h5>
 
 <ul>
 <li>在OpenStack仪表盘中创建密钥对，下载保存私钥</li>
@@ -132,7 +130,7 @@
 
 <p>创建一个模板虚拟机Template</p>
 
-<h4>4.1.1 SSH登陆进模板虚拟机，准备安装环境</h4>
+<h5>4.1.1 SSH登陆进模板虚拟机，准备安装环境</h5>
 
 <ul>
 <li><p>SSH -i 保存的私钥 ubuntu@虚拟机IP</p></li>
@@ -161,7 +159,7 @@ update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.4 50
 </code></pre></div></li>
 </ul>
 
-<h4>4.1.2 准备部署资源</h4>
+<h5>4.1.2 准备部署资源</h5>
 
 <ol>
 <li><p>下载Cloud Foundry源代码到部署Cloud Foundry组件的虚拟机</p>
@@ -171,7 +169,7 @@ update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.4 50
 <p>如果在其它机器上已经安装过，可以直接拷贝到当前虚拟机/root/cloudfoundry/目录下，并将/var/cache/dev_setup/目录拷贝到当前虚拟机相同目录下</p>
 
 <blockquote>
-<h5>注释掉/root/cloudfoundry/vcap/dev<em>setup/bin/vcap</em>dev_setup 中的第116行，否则下面安装时会因为连不上原官方网站而出错</h5>
+<p><strong>注释掉/root/cloudfoundry/vcap/dev<em>setup/bin/vcap</em>dev_setup 中的第116行，否则下面安装时会因为连不上原官方网站而出错</strong></p>
 </blockquote></li>
 <li><p>配置部署清单文件</p>
 
@@ -245,23 +243,23 @@ jobs:
         user: &quot;nats&quot;
         password: &quot;nats&quot;
 </code></pre></div></li>
-</ol></li>
 </ol>
 
 <blockquote>
-<h4>将以上所有配置清单文件放在虚拟机的/root目录下</h4>
-</blockquote>
+<p><strong>将以上所有配置清单文件放在虚拟机的/root目录下</strong></p>
+</blockquote></li>
+</ol>
 
-<h4>4.1.3 将虚拟机保存为模板快照，减少后面的重复工作</h4>
+<h5>4.1.3 将虚拟机保存为模板快照，减少后面的重复工作</h5>
 
-<h3>4.2 部署Cloud Foundry核心组件</h3>
+<h4>4.2 部署Cloud Foundry核心组件</h4>
 
-<h4>4.2.1 根据部署方案和模板创建各组件虚拟机</h4>
+<h5>4.2.1 根据部署方案和模板创建各组件虚拟机</h5>
 
-<h4>4.2.2 ssh分别登陆进各虚拟机，切换到root账户，运行以下命令：</h4>
+<h5>4.2.2 ssh分别登陆进各虚拟机，切换到root账户，运行以下命令：</h5>
 
 <blockquote>
-<p>Rest节点，请先将/root/cloudfoundry/vcap/dev_setup/cookbooks/cloud_controller/templates/default/runtimes.yml.erb&quot; 文件里的不需要的 runtime 注释掉</p>
+<p>Rest节点，请先将/root/cloudfoundry/vcap/dev_setup/cookbooks/cloud_controller/templates/default/runtimes.yml.erb 文件里的不需要的 runtime 注释掉</p>
 </blockquote>
 <div class="highlight"><pre><code class="language-text" data-lang="text">cd cloudfoundry/vcap/dev_setup/bin
 ./vcap_dev_setup -c /root/配置清单文件名 -D qfnucloud.com
@@ -295,18 +293,16 @@ gem sources --remove http://rubygems.org/
 </ul>
 </blockquote>
 
-<h4>4.2.3 根据以下命令控制相应组件启动：</h4>
+<h5>4.2.3 根据以下命令控制相应组件启动：</h5>
 <div class="highlight"><pre><code class="language-text" data-lang="text">./vcap_dev -n cf start/stop/restart
-</code></pre></div>
-<blockquote>
-<h4>注意：启动时，应首先启动Rest节点，再启动其余节点</h4>
-</blockquote>
 
-<h2>5 部署Nginx服务器</h2>
+&gt;**注意：启动时，应首先启动Rest节点，再启动其余节点**
+</code></pre></div>
+<h3>5 部署Nginx服务器</h3>
 
 <p>根据部署方案创建并ssh登陆进Nginx虚拟机，切换到root用户</p>
 
-<h3>5.1 准备工作</h3>
+<h4>5.1 准备工作</h4>
 
 <ul>
 <li><p>执行以下命令：</p>
@@ -322,10 +318,10 @@ apt-get upgrade
 </code></pre></div></li>
 </ul>
 
-<h3>5.2 安装Nginx</h3>
+<h4>5.2 安装Nginx</h4>
 <div class="highlight"><pre><code class="language-text" data-lang="text">apt-get install nginx
 </code></pre></div>
-<h3>5.3 配置Nginx服务器</h3>
+<h4>5.3 配置Nginx服务器</h4>
 
 <p>修改/etc/nginx/nginx.conf文件，在http{}末尾添加如下代码：</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">upstream qfnucloud{
@@ -350,18 +346,15 @@ proxy_pass http://qfnucloud;
 proxy_set_header Host $host;
 }
 </code></pre></div>
-<h3>5.4 加载新配置</h3>
+<h4>5.4 加载新配置</h4>
 <div class="highlight"><pre><code class="language-text" data-lang="text">service nginx reload
+
+&gt;**在OpenStack中为Nginx节点分配一个floating IP**
+&gt;**外网所有用户只需要将*.qfnucloud.com和qfnucloud.com指向该IP即可i**
 </code></pre></div>
-<blockquote>
-<h4>在OpenStack中为Nginx节点分配一个floating IP</h4>
+<h3>6 部署Cloud Foundry控制台</h3>
 
-<h4>外网所有用户只需要将*.qfnucloud.com和qfnucloud.com指向该IP即可</h4>
-</blockquote>
-
-<h2>6 部署Cloud Foundry控制台</h2>
-
-<h3>6.1 准备工作</h3>
+<h4>6.1 准备工作</h4>
 
 <p>根据部署方案创建并ssh登陆进Console虚拟机，切换到root账户</p>
 
@@ -379,12 +372,12 @@ apt-get upgrade
 </code></pre></div></li>
 </ul>
 
-<h3>6.2 下载cf-console源代码</h3>
+<h4>6.2 下载cf-console源代码</h4>
 <div class="highlight"><pre><code class="language-text" data-lang="text">cd /root
 git clone git://github.com/frodenas/cf-console.git
 cd cf-console
 </code></pre></div>
-<h3>6.3 修改替换内容</h3>
+<h4>6.3 修改替换内容</h4>
 
 <ul>
 <li><p>修改替换app/assets/images下相关图片</p></li>
@@ -398,23 +391,21 @@ cd cf-console
 修改相应信息</p></li>
 </ul>
 
-<h3>6.4 修改Console主机hosts文件</h3>
+<h4>6.4 修改Console主机hosts文件</h4>
 
 <p>添加：</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">Nginx主机IP   api.qfnucloud.com
 </code></pre></div>
-<h3>6.5 安装并启动</h3>
+<h4>6.5 安装并启动</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&gt;\#请确保ruby版本为1.9以上，并已安装rubygems -&gt; apt-get install rubygems和bundler -&gt; gem install bundler  
+&gt;\#请确保已安装thin -&gt; gem install thin
 
-<blockquote>
-<p>#请确保ruby版本为1.9以上，并已安装rubygems -&gt; apt-get install rubygems和bundler -&gt; gem install bundler<br>
-#请确保已安装thin -&gt; gem install thin</p>
-</blockquote>
-<div class="highlight"><pre><code class="language-text" data-lang="text">bundle install
+bundle install
 thin start -p 80
 </code></pre></div>
-<h2>7 上传应用</h2>
+<h3>7 上传应用</h3>
 
-<h3>7.1 准备工作</h3>
+<h4>7.1 准备工作</h4>
 
 <ol>
 <li><p>修改Rest节点下/root/cloudfoundry/.deployment/cf/config/cloud-controller.yml<br>
@@ -422,18 +413,16 @@ thin start -p 80
 <li><p>DNS服务器视情况需要决定是否搭建</p></li>
 </ol>
 
-<h3>7.2 安装Cloud Foudry命令行工具</h3>
+<h4>7.2 安装Cloud Foudry命令行工具</h4>
 <div class="highlight"><pre><code class="language-text" data-lang="text">gem install vmc -v 0.3.18   #务必安装此0.3.18版本
 
 vmc help    #查看使用说明  
 vmc register    #注册Cloud Foundry用户
 vmc login   #登陆
-</code></pre></div>
-<blockquote>
-<h3>vmc help 了解各命令作用，包括绑定域名、绑定数据库服务等</h3>
-</blockquote>
 
-<h3>7.3 ruby应用实例——负载均衡演示</h3>
+&gt;**vmc help 了解各命令作用，包括绑定域名、绑定数据库服务**等
+</code></pre></div>
+<h4>7.3 ruby应用实例——负载均衡演示</h4>
 <div class="highlight"><pre><code class="language-text" data-lang="text">mkdrir /root/env
 cd /root/env
 vim env.rb
@@ -461,29 +450,24 @@ end
 <div class="highlight"><pre><code class="language-text" data-lang="text">vmc push env --instances 4 --mem 64M --url env.qfnucloud.com -n env
 </code></pre></div>
 <p>该命令将创建4个应用实例，可用于演示负载均衡，浏览器访问env.qfnucloud.com，可看到后面端口的变化，表明在访问应用的不同实例</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&gt;浏览器所在主机需修改其hosts文件，将env.qfnucloud.com指向Nginx服务器的IP,或者搭建一个DNS服务器来解决
+&gt;解析问题
+</code></pre></div>
+<h4>7.4 数据库相关</h4>
 
-<blockquote>
-<p>浏览器所在主机需修改其hosts文件，将env.qfnucloud.com指向Nginx服务器的IP,或者搭建一个DNS服务器来解决
-解析问题</p>
-</blockquote>
-
-<h3>7.4 数据库相关</h3>
-
-<h4>7.4.1 安装数据库连接隧道Caldecott</h4>
+<h5>7.4.1 安装数据库连接隧道Caldecott</h5>
 <div class="highlight"><pre><code class="language-text" data-lang="text">gem install caldecott
 </code></pre></div>
-<h4>7.4.2 创建和绑定数据库服务到应用</h4>
+<h5>7.4.2 创建和绑定数据库服务到应用</h5>
 <div class="highlight"><pre><code class="language-text" data-lang="text">vmc create-service mysql 服务名  
 vmc bind-service 服务器 应用名
 </code></pre></div>
-<h4>7.4.3 创建数据库隧道</h4>
+<h5>7.4.3 创建数据库隧道</h5>
 <div class="highlight"><pre><code class="language-text" data-lang="text">vmc tunnel 服务名
-</code></pre></div>
-<blockquote>
-<h4>如出现Time out 或 name or service not known 错误提示，在hosts文件中添加</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">  Nginx服务器IP Caldecott App的URL    #(可通过vmc apps查看)
-</code></pre></div></blockquote>
 
+&gt;**如出现Time out 或 name or service not known 错误提示，在hosts文件中添加**
+&gt;   Nginx服务器IP Caldecott App的URL    #(可通过vmc apps查看)
+</code></pre></div>
 <p>会出现类似以下信息：</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">Starting tunnel to mysql-12345 on port 10000.
 1: none
@@ -492,7 +476,7 @@ What client would you like to start?:
 </code></pre></div>
 <p>选择1可以使用其它mysql客户端连接数据库，选择2则可以在当前命令行连接数据库</p>
 
-<h3>7.5 Java相关</h3>
+<h4>7.5 Java相关</h4>
 
 <p>Java Web 应用可以使用Cloud Foundry自带的运行时环境，也可以作为独立程序部署部署</p>
 
@@ -505,7 +489,7 @@ What client would you like to start?:
 
 <p>相关可以参考==&gt;<a href="http://m.oschina.net/blog/83259">在cloud foundry上为自己的独立应用添加数据库服务</a></p>
 
-<h2>8 相关附件</h2>
+<h3>8 相关附件</h3>
 
 <ol>
 <li><a href="./cloudfoundry.tar.gz">修改好的Cloud Foundry源代码</a></li>
